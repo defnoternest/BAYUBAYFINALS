@@ -17,6 +17,11 @@ const ItemForm = ({ item, onSuccess }) => {
     const [religion, setReligion] = useState('');
     const [height_CM, setHeight] = useState('');
     const [weight_KG, setWeight] = useState('');
+    const [bloodType, setBloodType] = useState('');
+    const [sssNumber, setSSSNumber] = useState('');
+    const [tinNumber, setTINNumber] = useState('');
+    const [zipCode, setZipCode] = useState('');
+    const [citizenship, setCitizenship] = useState('');
     const [momFN, setMomFirstName] = useState('');
     const [momMN, setMomMiddleName] = useState('');
     const [momLN, setMomLastName] = useState('');
@@ -38,7 +43,7 @@ const ItemForm = ({ item, onSuccess }) => {
             setEmail(item.email);
             setPhone(item.phone);
             setBirthday(item.birthday);
-            setBirthPlace(item.birth_place);
+            setBirthPlace(item.birthplace);
             setAge(item.age);
             setGender(item.gender);
             setNationality(item.nationality);
@@ -46,22 +51,28 @@ const ItemForm = ({ item, onSuccess }) => {
             setReligion(item.religion);
             setHeight(item.height_CM);
             setWeight(item.weight_KG);
-            setMomFirstName(item.momFN);
-            setMomMiddleName(item.momMN);
-            setMomLastName(item.momLN);
-            setMomOccupation(item.momOcc);
-            setFathFirstName(item.fathFN);
-            setFathMiddleName(item.fathMN);
-            setFathLastName(item.fathLN);
-            setFathOccupation(item.fathOcc);
+            setBloodType(item.blood_type);
+            setSSSNumber(item.sss_number);
+            setTINNumber(item.tin_number);
+            setZipCode(item.zip_code);
+            setCitizenship(item.citizenship);
+            setMomFirstName(item.mother_first_name);
+            setMomMiddleName(item.mother_middle_name);
+            setMomLastName(item.mother_last_name);
+            setMomOccupation(item.mother_occupation);
+            setFathFirstName(item.father_first_name);
+            setFathMiddleName(item.father_middle_name);
+            setFathLastName(item.father_last_name);
+            setFathOccupation(item.father_occupation);
             setPrimaryLevel(item.primary);
             setSecondaryLevel(item.secondary);
             setTertiaryLevel(item.tertiary);
         }
     }, [item]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = {
+        const formData = {
             first_name: firstName,
             middle_name: middleName,
             last_name: lastName,
@@ -75,8 +86,13 @@ const ItemForm = ({ item, onSuccess }) => {
             nationality,
             civil_status,
             religion,
-            height_CM,
-            weight_KG,
+            height_CM: height_CM,
+            weight_KG: weight_KG,
+            blood_type: bloodType,
+            sss_number: sssNumber,
+            tin_number: tinNumber,
+            zip_code: zipCode,
+            citizenship,
             mother_first_name: momFN,
             mother_middle_name: momMN,
             mother_last_name: momLN,
@@ -87,15 +103,14 @@ const ItemForm = ({ item, onSuccess }) => {
             father_occupation: fathOcc,
             primary,
             secondary,
-            tertiary,
-
+            tertiary
         };
+
         try {
             if (item) {
-                await
-                axios.put(`http://localhost:8000/api/items/${item.id}/`, data);
+                await axios.put(`http://localhost:8000/api/items/${item.id}/`, formData);
             } else {
-                axios.post('http://localhost:8000/api/items/', data);
+                await axios.post('http://localhost:8000/api/items/', formData);
             }
             onSuccess();
         } catch (error) {
@@ -105,6 +120,7 @@ const ItemForm = ({ item, onSuccess }) => {
 
     return (
         <form onSubmit={handleSubmit}>
+            {/* Add form inputs for each field */}
             <div>
                 <label>First Name:</label>
                 <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
@@ -122,24 +138,24 @@ const ItemForm = ({ item, onSuccess }) => {
                 <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
             </div>
             <div>
-                <label>Contact No.:</label>
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            </div>
-            <div>
                 <label>Email:</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div>
+                <label>Phone:</label>
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
             <div>
                 <label>Birthday:</label>
                 <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
             </div>
             <div>
-                <label>Place of Birth:</label>
+                <label>Birthplace:</label>
                 <input type="text" value={birthplace} onChange={(e) => setBirthPlace(e.target.value)} />
             </div>
             <div>
                 <label>Age:</label>
-                <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
+                <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
             </div>
             <div>
                 <label>Gender:</label>
@@ -158,12 +174,32 @@ const ItemForm = ({ item, onSuccess }) => {
                 <input type="text" value={religion} onChange={(e) => setReligion(e.target.value)} />
             </div>
             <div>
-                <label>Height:</label>
-                <input type="text" value={height_CM} onChange={(e) => setHeight(e.target.value)} />
+                <label>Height (cm):</label>
+                <input type="number" value={height_CM} onChange={(e) => setHeight(e.target.value)} />
             </div>
             <div>
-                <label>Weight:</label>
-                <input type="text" value={weight_KG} onChange={(e) => setWeight(e.target.value)} />
+                <label>Weight (kg):</label>
+                <input type="number" value={weight_KG} onChange={(e) => setWeight(e.target.value)} />
+            </div>
+            <div>
+                <label>Blood Type:</label>
+                <input type="text" value={bloodType} onChange={(e) => setBloodType(e.target.value)} />
+            </div>
+            <div>
+                <label>SSS Number:</label>
+                <input type="text" value={sssNumber} onChange={(e) => setSSSNumber(e.target.value)} />
+            </div>
+            <div>
+                <label>TIN Number:</label>
+                <input type="text" value={tinNumber} onChange={(e) => setTINNumber(e.target.value)} />
+            </div>
+            <div>
+                <label>ZIP Code:</label>
+                <input type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
+            </div>
+            <div>
+                <label>Citizenship:</label>
+                <input type="text" value={citizenship} onChange={(e) => setCitizenship(e.target.value)} />
             </div>
             <div>
                 <label>Mother's First Name:</label>
@@ -209,10 +245,9 @@ const ItemForm = ({ item, onSuccess }) => {
                 <label>Tertiary Level:</label>
                 <input type="text" value={tertiary} onChange={(e) => setTertiaryLevel(e.target.value)} />
             </div>
-
             <button type="submit">Submit</button>
         </form>
     );
-       
 };
+
 export default ItemForm;
